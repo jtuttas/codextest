@@ -1,14 +1,14 @@
-# Tic Tac Toe React App
+# Flappy Bird Clone
 
-Dies ist ein einfaches Tic Tac Toe Spiel, implementiert mit React. Es verwendet die React- und ReactDOM-CDNs sowie Babel, so dass keine Build-Schritte erforderlich sind.
+Dies ist ein einfacher Flappy-Bird-Klon, der mit React und Canvas umgesetzt ist. Es nutzt die React- und ReactDOM-CDNs sowie Babel, sodass keine Build-Schritte notwendig sind.
 
 ## Starten
 
-Einfach `index.html` in einem Browser öffnen. Es wird das Spiel laden.
+Einfach `index.html` in einem Browser öffnen. Nach einem Klick oder Druck auf die Leertaste startet das Spiel.
 
 ## Ordnerstruktur
 
-- `index.html` – Hauptseite, bindet React ein und startet die App
+- `index.html` – Lädt React und startet das Spiel
 - `src/index.js` – Enthält die gesamte Spiellogik
 
-Viel Spaß beim Spielen!
+Viel Spaß beim Fliegen!

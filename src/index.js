@@ -9,6 +9,22 @@ function FlappyBirdGame() {
 
   const [gameOver, setGameOver] = React.useState(false);
   const [, setRerender] = React.useState(0); // used to trigger rerender for score
+  const [highscores, setHighscores] = React.useState(() => {
+    const saved = localStorage.getItem('flappyBirdHighscores');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  function addHighscore(score) {
+    const name = window.prompt('Name für die Highscore eingeben:');
+    if (!name) return;
+    const saved = localStorage.getItem('flappyBirdHighscores');
+    const list = saved ? JSON.parse(saved) : [];
+    const newList = [...list, { name, score }]
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10);
+    localStorage.setItem('flappyBirdHighscores', JSON.stringify(newList));
+    setHighscores(newList);
+  }
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
@@ -86,6 +102,7 @@ function FlappyBirdGame() {
       ) {
         runningRef.current = false;
         setGameOver(true);
+        addHighscore(scoreRef.current);
         draw();
         return;
       }
@@ -136,6 +153,14 @@ function FlappyBirdGame() {
     <div>
       <canvas ref={canvasRef} width={400} height={300}></canvas>
       {gameOver && <div>Game Over - Click or press space to restart</div>}
+      <div className="highscores">
+        <h2>Highscores</h2>
+        <ol>
+          {highscores.map((s, i) => (
+            <li key={i}>{s.name}: {s.score}</li>
+          ))}
+        </ol>
+      </div>
     </div>
   );
 }

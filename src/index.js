@@ -13,10 +13,11 @@ function FlappyBirdGame() {
   React.useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const gravity = 0.5;
+    const gravity = 0.45; // slightly less gravity for easier control
     const flapStrength = -8;
     const pipeWidth = 40;
-    const gapHeight = 100;
+    const pipeSpeed = 1.5; // slower pipe movement to reduce difficulty
+    const gapHeight = 130; // wider gap so passing pipes is easier
 
     function addPipe() {
       const gapY = Math.random() * (canvas.height - gapHeight - 40) + 20;
@@ -65,11 +66,12 @@ function FlappyBirdGame() {
       b.velocity += gravity;
       b.y += b.velocity;
 
-      if (frameRef.current % 90 === 0) addPipe();
+      // spawn pipes less frequently for easier gameplay
+      if (frameRef.current % 110 === 0) addPipe();
       frameRef.current++;
 
       pipesRef.current.forEach(pipe => {
-        pipe.x -= 2;
+        pipe.x -= pipeSpeed;
         if (!pipe.scored && pipe.x + pipeWidth < b.x) {
           pipe.scored = true;
           scoreRef.current += 1;

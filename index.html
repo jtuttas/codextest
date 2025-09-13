@@ -112,58 +112,66 @@
     <button id="reset">Neu starten</button>
   </div>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      let currentPlayer = 'X';
+    let currentPlayer = 'X';
+    
+    const winningCombinations = [
+      [0,1,2], [3,4,5], [6,7,8], // rows
+      [0,3,6], [1,4,7], [2,5,8], // columns
+      [0,4,8], [2,4,6] // diagonals
+    ];
+
+    function checkWin() {
+      const squares = document.querySelectorAll('.square');
+      const board = Array.from(squares).map(square => square.textContent);
+      return winningCombinations.some(combination => {
+        const [a, b, c] = combination;
+        return board[a] && board[a] === board[b] && board[a] === board[c];
+      });
+    }
+
+    function checkDraw() {
+      const squares = document.querySelectorAll('.square');
+      return Array.from(squares).every(square => square.textContent !== '');
+    }
+
+    function handleSquareClick(event) {
+      const square = event.target;
+      const statusElement = document.getElementById('status');
+      
+      if (square.textContent !== '' || square.disabled) {
+        return;
+      }
+
+      square.textContent = currentPlayer;
+      
+      if (checkWin()) {
+        statusElement.textContent = currentPlayer + ' gewinnt!';
+        const squares = document.querySelectorAll('.square');
+        squares.forEach(sq => sq.disabled = true);
+      } else if (checkDraw()) {
+        statusElement.textContent = 'Unentschieden';
+      } else {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        statusElement.textContent = currentPlayer + ' ist dran';
+      }
+    }
+
+    function resetGame() {
       const squares = document.querySelectorAll('.square');
       const statusElement = document.getElementById('status');
-      const resetButton = document.getElementById('reset');
       
-      const winningCombinations = [
-        [0,1,2], [3,4,5], [6,7,8], // rows
-        [0,3,6], [1,4,7], [2,5,8], // columns
-        [0,4,8], [2,4,6] // diagonals
-      ];
+      squares.forEach(square => {
+        square.textContent = '';
+        square.disabled = false;
+      });
+      currentPlayer = 'X';
+      statusElement.textContent = 'X beginnt';
+    }
 
-      function checkWin() {
-        const board = Array.from(squares).map(square => square.textContent);
-        return winningCombinations.some(combination => {
-          const [a, b, c] = combination;
-          return board[a] && board[a] === board[b] && board[a] === board[c];
-        });
-      }
-
-      function checkDraw() {
-        return Array.from(squares).every(square => square.textContent !== '');
-      }
-
-      function handleSquareClick(event) {
-        const square = event.target;
-        
-        if (square.textContent !== '' || square.disabled) {
-          return;
-        }
-
-        square.textContent = currentPlayer;
-        
-        if (checkWin()) {
-          statusElement.textContent = currentPlayer + ' gewinnt!';
-          squares.forEach(sq => sq.disabled = true);
-        } else if (checkDraw()) {
-          statusElement.textContent = 'Unentschieden';
-        } else {
-          currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-          statusElement.textContent = currentPlayer + ' ist dran';
-        }
-      }
-
-      function resetGame() {
-        squares.forEach(square => {
-          square.textContent = '';
-          square.disabled = false;
-        });
-        currentPlayer = 'X';
-        statusElement.textContent = 'X beginnt';
-      }
+    // Initialize the game when the page loads
+    window.addEventListener('load', function() {
+      const squares = document.querySelectorAll('.square');
+      const resetButton = document.getElementById('reset');
 
       squares.forEach(square => {
         square.addEventListener('click', handleSquareClick);

@@ -4,11 +4,16 @@
 
 import { qs, render } from './ui/dom.js';
 import { createTicTacToe } from './ui/components/tic-tac-toe.js';
+import { initTheme } from './theme.js';
 
 /**
  * Initialize the application
  */
 function init() {
+  // Initialize theme system first (to prevent flash of wrong theme)
+  const themeToggleButton = qs('#theme-toggle');
+  initTheme(themeToggleButton);
+
   // Set current year in footer
   const yearEl = qs('#year');
   if (yearEl) {

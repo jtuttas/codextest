@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,8 +9,15 @@
 </head>
 <body>
   <header class="site-header" role="banner">
-    <h1 class="site-title">Tic Tac Toe</h1>
-    <p class="site-subtitle">Ein klassisches Spiel für zwei Spieler</p>
+    <div class="header-content">
+      <div class="header-text">
+        <h1 class="site-title">Tic Tac Toe</h1>
+        <p class="site-subtitle">Ein klassisches Spiel für zwei Spieler</p>
+      </div>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Zu dunklem Modus wechseln" title="Zu dunklem Modus wechseln">
+        🌙
+      </button>
+    </div>
   </header>
   <main id="app" class="app" role="main" tabindex="-1">
     <!-- App-Inhalt wird von JS gerendert -->
